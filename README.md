@@ -2,7 +2,7 @@
 
         ⌨️ Commit & Pull Request
 
-            ✔️ Selalu gunakan `conventional commit message` saat melakukan commit atau pada saat `creating pull request`
+            ✔️ Selalu gunakan `conventional commit message` saat melakukan commit atau pada saat `creating pull request`: https://www.conventionalcommits.org/en/v1.0.0/
 
             ✔️ `Squash and Merge` pull request menuju ke `branch main`
 
@@ -45,5 +45,3 @@
             ✔️ Untuk migrasi di fase production
 
                 bash> npx prisma migrate deploy
-
-
