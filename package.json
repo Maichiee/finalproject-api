@@ -30,6 +30,8 @@
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
+    "node-geocoder": "^4.4.1",
+    "nodemailer": "^7.0.3",
     "zod": "^3.24.4"
   },
   "devDependencies": {
@@ -43,6 +45,8 @@
     "@types/jsonwebtoken": "^9.0.9",
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.15.3",
+    "@types/node-geocoder": "^4.2.6",
+    "@types/nodemailer": "^6.4.17",
     "@typescript-eslint/eslint-plugin": "^8.31.1",
     "@typescript-eslint/parser": "^8.31.1",
     "commitizen": "^4.3.1",

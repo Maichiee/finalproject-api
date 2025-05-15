@@ -3,8 +3,7 @@ import cors from "cors"
 import helmet from "helmet"
 import morgan from "morgan"
 import { PORT } from "./config"
-import authRoutes from "./routers/auth.router"
-import adminRoutes from "./routers/admin.router"
+import authRoutes from "./routes/auth.router"
 
 export default class App {
   private app: Express
@@ -53,9 +52,12 @@ export default class App {
   }
 
   private routes(): void {
-    
-    this.app.use("/", authRoutes)
-    this.app.use("/", adminRoutes)
+    // Use the auth routes with the correct path prefix
+    this.app.use("/auth", authRoutes)
+
+    // If you need admin routes, uncomment and import them
+    // import adminRoutes from "./routes/admin.router"
+    // this.app.use("/api/admin", adminRoutes)
   }
 
   public start(): void {
