@@ -1,75 +1,66 @@
-import express, {
-  json,
-  urlencoded,
-  Express,
-  Request,
-  Response,
-  NextFunction,
-  Router,
-} from 'express';
-import cors from 'cors';
-import { PORT } from './config';
-import { SampleRouter } from './routers/sample.router';
+import express, { json, urlencoded, type Express, type Request, type Response, type NextFunction } from "express"
+import cors from "cors"
+import helmet from "helmet"
+import morgan from "morgan"
+import { PORT } from "./config"
+import authRoutes from "./routers/auth.router"
+import adminRoutes from "./routers/admin.router"
 
 export default class App {
-  private app: Express;
+  private app: Express
 
   constructor() {
-    this.app = express();
-    this.configure();
-    this.routes();
-    this.handleError();
+    this.app = express()
+    this.configure()
+    this.routes()
+    this.handleError()
   }
 
   private configure(): void {
-    this.app.use(cors());
-    this.app.use(json());
-    this.app.use(urlencoded({ extended: true }));
+    this.app.use(cors())
+    this.app.use(helmet())
+    this.app.use(morgan("dev"))
+    this.app.use(json())
+    this.app.use(urlencoded({ extended: true }))
   }
 
   private handleError(): void {
     // Not Found Handler
     this.app.use((req: Request, res: Response, next: NextFunction) => {
-      if (req.path.includes('/api/')) {
+      if (req.path.includes("/api/")) {
         res
           .status(404)
           .send(
-            'We are sorry, the endpoint you are trying to access could not be found on this server. Please ensure the URL is correct!'
-          );
+            "We are sorry, the endpoint you are trying to access could not be found on this server. Please ensure the URL is correct!",
+          )
       } else {
-        next();
+        next()
       }
-    });
+    })
 
     // Error Handler
-    this.app.use(
-      (err: Error, req: Request, res: Response, next: NextFunction) => {
-        if (req.path.includes('/api/')) {
-          console.error('Error : ', err.stack);
-          res.status(500).json({
-            success: false,
-            message: 'Internal server error. Please try again later!',
-          });
-        } else {
-          next();
-        }
+    this.app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+      if (req.path.includes("/api/")) {
+        console.error("Error : ", err.stack)
+        res.status(500).json({
+          success: false,
+          message: "Internal server error. Please try again later!",
+        })
+      } else {
+        next()
       }
-    );
+    })
   }
 
   private routes(): void {
-    const sampleRouter = new SampleRouter();
-
-    this.app.get('/api', (req: Request, res: Response) => {
-      res.send(`Hello, Purwadhika Student API!`);
-    });
-
-    this.app.use('/api/samples', sampleRouter.getRouter());
+    
+    this.app.use("/", authRoutes)
+    this.app.use("/", adminRoutes)
   }
 
   public start(): void {
     this.app.listen(PORT, () => {
-      console.log(`  ➜ [API] Local:   http://localhost:${PORT}/`);
-    });
+      console.log(`  ➜ [API] Local:   http://localhost:${PORT}/`)
+    })
   }
 }
