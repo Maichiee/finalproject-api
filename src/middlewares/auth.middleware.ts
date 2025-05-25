@@ -62,3 +62,12 @@ export const authorizeRecruiter = (req: AuthRequest, res: Response, next: NextFu
 
   next()
 }
+
+export const authorizeRecruiterOrAdmin = (req: AuthRequest, res: Response, next: NextFunction): void => {
+  if (!req.user?.role || (req.user.role !== "recruiter" && req.user.role !== "admin")) {
+    res.status(403).json({ message: "Access denied, recruiter or admin privileges required" })
+    return
+  }
+
+  next()
+}

@@ -2,8 +2,11 @@ import express, { json, urlencoded, type Express, type Request, type Response, t
 import cors from "cors"
 import helmet from "helmet"
 import morgan from "morgan"
+import path from "path"
 import { PORT } from "./config"
 import authRoutes from "./routes/auth.router"
+import profileRoutes from "./routes/profile.router"
+import applicantRoutes from "./routes/applicant.router"
 
 export default class App {
   private app: Express
@@ -21,6 +24,9 @@ export default class App {
     this.app.use(morgan("dev"))
     this.app.use(json())
     this.app.use(urlencoded({ extended: true }))
+
+    // Serve static files for uploaded images and CVs
+    this.app.use("/uploads", express.static(path.join(process.cwd(), "uploads")))
   }
 
   private handleError(): void {
@@ -52,8 +58,14 @@ export default class App {
   }
 
   private routes(): void {
-    // Use the auth routes with the correct path prefix
-    this.app.use("/auth", authRoutes)
+    // Authentication routes
+    this.app.use("/api/auth", authRoutes)
+
+    // Profile routes
+    this.app.use("/api/profile", profileRoutes)
+
+    // Applicant management routes
+    this.app.use("/api/applicants", applicantRoutes)
 
     // If you need admin routes, uncomment and import them
     // import adminRoutes from "./routes/admin.router"

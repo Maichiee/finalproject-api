@@ -29,3 +29,19 @@ export const GEOCODER_CONFIG = {
   provider: process.env.GEOCODER_PROVIDER || "openstreetmap",
   apiKey: process.env.GEOCODER_API_KEY || "",
 }
+
+// Social login configuration
+export const SOCIAL_CONFIG = {
+  google: {
+    clientId: process.env.GOOGLE_CLIENT_ID || "",
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+  },
+  facebook: {
+    appId: process.env.FACEBOOK_APP_ID || "",
+    appSecret: process.env.FACEBOOK_APP_SECRET || "",
+  },
+  twitter: {
+    apiKey: process.env.TWITTER_API_KEY || "",
+    apiSecret: process.env.TWITTER_API_SECRET || "",
+  },
+}
